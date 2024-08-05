@@ -1,0 +1,198 @@
+Felladrin/gguf-NuExtract-tiny
+https://huggingface.co/Felladrin/gguf-NuExtract-tiny/tree/main
+
+Original Repo
+https://huggingface.co/numind/NuExtract-tiny
+
+
+pip install llama-cpp-python==0.2.85 tiktoken streamlit==1.36.0 huggingface-hub
+pip install langchain langchain-community  faiss-cpu duckduckgo-search newspaper3k
+pip install pymupdf4llm strip_markdown
+
+```
+>>> import strip_markdown
+>>>
+>>> TXT: str = strip_markdown.strip_markdown(MD: str)
+```
+
+
+
+MODEL CARD
+NuExtract_tiny is a version of Qwen1.5-0.5, fine-tuned on a private high-quality synthetic dataset for information extraction. To use the model, provide an input text (less than 2000 tokens) and a JSON template describing the information you need to extract.
+
+Note: This model is purely extractive, so all text output by the model is present as is in the original text. You can also provide an example of output formatting to help the model understand your task more precisely.
+
+Note: While this model provides good 0 shot performance, it is intended to be fine-tuned on a specific task (>=30 examples).
+
+We also provide a base (3.8B) and large(7B) version of this model: NuExtract and NuExtract-large
+https://huggingface.co/numind/NuExtract
+https://huggingface.co/numind/NuExtract-large
+
+
+llama_model_loader: loaded meta data with 27 key-value pairs and 290 tensors from model/NuExtract-tiny.gguf (version GGUF V3 (latest))
+llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+llama_model_loader: - kv   0:                       general.architecture str              = qwen2
+llama_model_loader: - kv   1:                               general.type str              = model
+llama_model_loader: - kv   2:                               general.name str              = Qwen1.5 0.5B
+llama_model_loader: - kv   3:                       general.organization str              = Qwen
+llama_model_loader: - kv   4:                           general.basename str              = Qwen1.5
+llama_model_loader: - kv   5:                         general.size_label str              = 0.5B
+llama_model_loader: - kv   6:                            general.license str              = mit
+llama_model_loader: - kv   7:                          general.languages arr[str,1]       = ["en"]
+llama_model_loader: - kv   8:                          qwen2.block_count u32              = 24
+llama_model_loader: - kv   9:                       qwen2.context_length u32              = 32768
+llama_model_loader: - kv  10:                     qwen2.embedding_length u32              = 1024
+llm_load_print_meta: format           = GGUF V3 (latest)
+llm_load_print_meta: arch             = qwen2
+llm_load_print_meta: vocab type       = BPE
+llm_load_print_meta: n_vocab          = 151936
+llm_load_print_meta: n_merges         = 151387
+llm_load_print_meta: vocab_only       = 0
+llm_load_print_meta: n_ctx_train      = 32768
+llm_load_print_meta: n_embd           = 1024
+llm_load_print_meta: model type       = 0.5B
+llm_load_print_meta: model ftype      = BF16
+llm_load_print_meta: model params     = 463.99 M
+llm_load_print_meta: model size       = 885.22 MiB (16.00 BPW)
+llm_load_print_meta: general.name     = Qwen1.5 0.5B
+llm_load_print_meta: BOS token        = 151643 '<|endoftext|>'
+llm_load_print_meta: EOS token        = 151646 '<|end-output|>'
+llm_load_print_meta: PAD token        = 151643 '<|endoftext|>'
+llm_load_print_meta: LF token         = 148848 'ÄĬ'
+llm_load_print_meta: EOT token        = 151645 '<|im_end|>'
+'tokenizer.chat_template': "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"}
+Available chat formats from metadata: chat_template.default
+Using gguf chat template: {% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system
+You are a helpful assistant<|im_end|>
+' }}{% endif %}{{'<|im_start|>' + message['role'] + '
+' + message['content'] + '<|im_end|>' + '
+'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant
+' }}{% endif %}
+Using chat eos_token: <|end-output|>
+Using chat bos_token: <|endoftext|>
+
+
+
+CODE SNIPPET
+```
+import json
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+
+def predict_NuExtract(model, tokenizer, text, schema, example=["","",""]):
+    schema = json.dumps(json.loads(schema), indent=4)
+    input_llm =  "<|input|>\n### Template:\n" +  schema + "\n"
+    for i in example:
+      if i != "":
+          input_llm += "### Example:\n"+ json.dumps(json.loads(i), indent=4)+"\n"
+    
+    input_llm +=  "### Text:\n"+text +"\n<|output|>\n"
+    input_ids = tokenizer(input_llm, return_tensors="pt", truncation=True, max_length=4000).to("cuda")
+
+    output = tokenizer.decode(model.generate(**input_ids)[0], skip_special_tokens=True)
+    return output.split("<|output|>")[1].split("<|end-output|>")[0]
+
+
+model = AutoModelForCausalLM.from_pretrained("numind/NuExtract-tiny", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("numind/NuExtract-tiny", trust_remote_code=True)
+
+model.to("cuda")
+
+model.eval()
+
+text = """We introduce Mistral 7B, a 7–billion-parameter language model engineered for
+superior performance and efficiency. Mistral 7B outperforms the best open 13B
+model (Llama 2) across all evaluated benchmarks, and the best released 34B
+model (Llama 1) in reasoning, mathematics, and code generation. Our model
+leverages grouped-query attention (GQA) for faster inference, coupled with sliding
+window attention (SWA) to effectively handle sequences of arbitrary length with a
+reduced inference cost. We also provide a model fine-tuned to follow instructions,
+Mistral 7B – Instruct, that surpasses Llama 2 13B – chat model both on human and
+automated benchmarks. Our models are released under the Apache 2.0 license.
+Code: https://github.com/mistralai/mistral-src
+Webpage: https://mistral.ai/news/announcing-mistral-7b/"""
+
+schema = """{
+    "Model": {
+        "Name": "",
+        "Number of parameters": "",
+        "Number of max token": "",
+        "Architecture": []
+    },
+    "Usage": {
+        "Use case": [],
+        "Licence": ""
+    }
+}"""
+
+prediction = predict_NuExtract(model, tokenizer, text, schema, example=["","",""])
+print(prediction)
+```
+
+
+
+
+
+
+Zero configuration Local LLMs for everyone!
+
+LM Studio: experience the magic of LLMs with Zero technical expertise
+Your guide to Zero configuration Local LLMs on any computer.
+
+
+https://medium.com/mlearning-ai/metadata-metamorphosis-from-plain-data-to-enhanced-insights-with-retrieval-augmented-generation-8d1a8d5a6061?sk=70e8abf76409be379bce7509d35afe05
+
+
+On the command line, including multiple files at once
+I recommend using the huggingface-hub Python library:
+
+pip3 install huggingface-hub
+
+Then you can download any individual model file to the current directory, at high speed, with a command like this:
+
+huggingface-cli download TheBloke/Panda-7B-v0.1-GGUF panda-7b-v0.1.Q4_K_M.gguf --local-dir . --local-dir-use-symlinks False
+
+
+Example llama.cpp command
+Make sure you are using llama.cpp from commit d0cee0d or later.
+
+./main -ngl 35 -m panda-7b-v0.1.Q4_K_M.gguf --color -c 32768 --temp 0.7 --repeat_penalty 1.1 -n -1 -p "{prompt}"
+
+Change -ngl 32 to the number of layers to offload to GPU. Remove it if you don't have GPU acceleration.
+
+Change -c 32768 to the desired sequence length. For extended sequence models - eg 8K, 16K, 32K - the necessary RoPE scaling parameters are read from the GGUF file and set by llama.cpp automatically. Note that longer sequence lengths require much more resources, so you may need to reduce this value.
+
+If you want to have a chat-style conversation, replace the -p <PROMPT> argument with -i -ins
+
+
+
+
+
+Due to the unstructured nature of human conversational language data, the input to LLMs are conversational and unstructured, in the form of Prompt Engineering.
+And the output of LLMs is also conversational and unstructured; a highly succinct form of natural language generation (NLG).
+LLMs introduced functionality to fine-tune and create custom models. And the initial primary approach to customising LLMs was creating custom models via fine-tuning.
+This approach has fallen into disfavour for three reasons:
+As LLMs have both a generative and predictive side. The generative power of LLMs is easier to leverage than the predictive power. If the generative side of LLMs are presented with contextual, concise and relevant data at inference-time, hallucination is negated.
+Fine-tuning LLMs involves training data curation, transformation and LLM related cost. Fine-tuned models are frozen with a definite time-stamp and will still demand innovation around prompt creation and data presentation to the LLM.
+When classifying text based on pre-defined classes or intents, NLU still has an advantage with built-in efficiencies.
+I hasten to add that there has been significant advances in improving no-code to low-code UIs and fine-tuning costs. A prudent approach is to make use of a hybrid solution, drawing on the benefits of fine-tuning and RAG.
+The aim of fine-tuning of LLMs is to engender more accurate and succinct reasoning and answers.
+The proven solution to hallucination is using highly relevant and contextual prompts at inference-time, and asking the LLM to follow chain-of-thought reasoning. This also solves for one of the big problems with LLMs; hallucination, where the LLM returns highly plausible but incorrect answers.
+
+
+
+
+$env:CMAKE_ARGS="-DLLAMA_CUBLAS=on"
+pip install llama-cpp-python[server]==0.2.53
+python -m llama_cpp.server --help
+python -m llama_cpp.server --host 0.0.0.0 --model model/Quyen-Mini-v0.1.Q4_K_M.gguf --chat_format chatml --n_ctx 8196 --n_gpu_layers 25
+
+
+python -m llama_cpp.server --host 0.0.0.0 --model model/llama-2-7b-chat.Q4_K_M.gguf --chat_format llama-2 --n_ctx 4096 --n_gpu_layers 33
+
+
+llama_cpp.llama_chat_format.LlamaChatCompletionHandlerNotFoundException: Invalid chat handler: llama2 (valid formats: ['llama-2', 'alpaca', 'qwen', 'vicuna', 'oasst_llama', 'baichuan-2', 'baichuan', 'openbuddy', 'redpajama-incite', 'snoozy', 'phind', 'intel', 'open-orca', 'mistrallite', 'zephyr', 'pygmalion', 'chatml', 'mistral-instruct', 'chatglm3', 'openchat', 'saiga', 'gemma', 'functionary', 'functionary-v2', 'functionary-v1', 'chatml-function-calling'])
+
+
+python -m llama_cpp.server --host 0.0.0.0 --model model/qwen1_5-4b-chat-q6_k.gguf --chat_format chatml --n_ctx 32768 --n_gpu_layers 41
+
