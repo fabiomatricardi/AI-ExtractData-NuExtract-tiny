@@ -77,6 +77,11 @@ Run everything with
 python singleExtract.py
 ```
 
+To run Streamlit interface, after downloading all images in the `images` subfolder:
+```
+streamlit run stapp.py
+```
+
 ### Hyperparameters
 ```
 temperature=0.1,
