@@ -89,17 +89,19 @@ repeat_penalty= 1.11,
 stop=['<|end-output|>'],
 ```
 
-
+---
 
 ### Additional resources
-```
-# [https://huggingface.co/learn/cookbook/en/information_extraction_haystack_nuextract](https://huggingface.co/learn/cookbook/en/information_extraction_haystack_nuextract)
-# [https://llama-cpp-python.readthedocs.io/en/stable/api-reference/#llama_cpp.Llama.create_completion](https://llama-cpp-python.readthedocs.io/en/stable/api-reference/#llama_cpp.Llama.create_completion)
-# [https://numind.ai/blog/nuextract-a-foundation-model-for-structured-extraction](https://numind.ai/blog/nuextract-a-foundation-model-for-structured-extraction)
-# [https://huggingface.co/numind/NuExtract-tiny](https://huggingface.co/numind/NuExtract-tiny)
-# GGUF repo [https://huggingface.co/Felladrin/gguf-NuExtract-tiny](https://huggingface.co/Felladrin/gguf-NuExtract-tiny)
-# [https://www.geeksforgeeks.org/json-loads-in-python/](https://www.geeksforgeeks.org/json-loads-in-python/)
-```
+
+- [https://huggingface.co/learn/cookbook/en/information_extraction_haystack_nuextract](https://huggingface.co/learn/cookbook/en/information_extraction_haystack_nuextract)
+- [https://llama-cpp-python.readthedocs.io/en/stable/api-reference/#llama_cpp.Llama.create_completion](https://llama-cpp-python.readthedocs.io/en/stable/api-reference/#llama_cpp.Llama.create_completion)
+- [https://numind.ai/blog/nuextract-a-foundation-model-for-structured-extraction](https://numind.ai/blog/nuextract-a-foundation-model-for-structured-extraction)
+- [https://huggingface.co/numind/NuExtract-tiny](https://huggingface.co/numind/NuExtract-tiny)
+- GGUF repo [https://huggingface.co/Felladrin/gguf-NuExtract-tiny](https://huggingface.co/Felladrin/gguf-NuExtract-tiny)
+- [https://www.geeksforgeeks.org/json-loads-in-python/](https://www.geeksforgeeks.org/json-loads-in-python/)
+
+
+---
 
 
 
