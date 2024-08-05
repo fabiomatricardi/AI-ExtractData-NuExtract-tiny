@@ -1,0 +1,117 @@
+2024-08-05 17:57:04.227098
+
+Your own LocalGPT with 🌀 NuExtract-tiny
+---
+🧠🫡: You are a helpful assistant.
+🌀: How may I help you today?
+✨: <|input|>
+### Template:
+{
+    "Applicant": {
+        "Name": "",
+        "Surname": "",
+        "email address":"",
+        "phone number":"",
+        "Date of Birth":"",
+        "Nationality":"",
+        "Country":"",
+        "Languages": []
+    }
+}
+
+
+{
+    "Applicant": {
+        "Name": "",
+        "Surname": "",
+        "email address":"",
+        "phone number":"",
+        "Date of Birth":""
+    }
+}
+
+
+
+
+### Text:
+CURRICULUM VITAE Name Fabio ElMassry
+Position Instrument & Control Engineer
+Date of Birth 05/04/1986
+Nationality Egyptian
+Status Married
+Languages English/Italian/Arabic
+Phone/ mail         +39685737365/ fabioElMassry@yahoo.frEducation: 2002 – 2007 - Bachelor of Engineering degree in Automation EngineeringProfessional Certification: Specialized instrumentation engineering (Algerian Petroleum Institute),Trainings:                    ICSS (DCS, ESD, F&G) troubleshooting & maintenance, GE Control
+Turbine Mark VIe maintenance, PLC Programming, DCS configuration &
+Troubleshooting, CCTV & Access control (Germany), UPS maintenance.IT skills: Proficient user of LINUX & Microsoft Windows, Microsoft Office pack,
+Matlab, SQL, AutoCAD, PRIMAVIRA, C++, Hysys.General:
+Strong experience as instrumentation and control engineer at SONATRACH, the Algerian National Oil & Gas
+Company and its partners within Oil & Gas Processing Plants, Refineries, Petrochemical and Chemical
+Plants, and mining including EPC projects, plant maintenance, commissioning & startup, engineering,
+revamping. I have a wide range experience in configuration, commissioning programming, troubleshooting &
+diagnostic of ICSS, DCS, ESD, F&G, SCADA, PLC, GE Turbine control Mark V, VI and VIe, all kinds of
+instrument & machines and familiar with standards and codes IEC, ISA….Work experienceMay 2014 – Present: ENI-Sonatrach (Joint venture)                           Algeria
+Instrument & Control engineerWorked as Instrument & Control Engineer at Joint-Venture Eni-Sonatrach,
+Hassi Messoud, Algeria, on CPF, Central Processing facilities, plant
+including three Gas & Crude Treatment trains and utilities facilities.x Maintenance of ICSS system (DCS, ESD, Fire & gas), loop check,
+graphic configuration, PLC programming and configuration.
+x Troubleshooting system and process alarms using DCS Honeywell
+TPS/TDC3000, ESD FSC/ Triconex, F&G, BMS and BOP systems.
+<|output|>
+
+🌀: {
+"Applicant":{
+"Name":"Fabio ElMassry"
+"Surname":""
+"email address":"fabioElMassry@yahoo.fr"
+"phone number":"+39685737365"
+"Date of Birth":"05/04/1986"
+}
+}
+
+---
+
+{
+    "Details": {
+        "Nationality": "",
+        "Country": "",
+        "Languages": []
+    }
+}
+
+CURRICULUM VITAE Name Fabio ElMassry
+Position Instrument & Control Engineer
+Date of Birth 05/04/1986
+Nationality Egyptian
+Status Married
+Languages English/Italian/Arabic
+Phone/ mail         +39685737365/ fabioElMassry@yahoo.frEducation: 2002 – 2007 - Bachelor of Engineering degree in Automation EngineeringProfessional Certification: Specialized instrumentation engineering (Algerian Petroleum Institute),Trainings:                    ICSS (DCS, ESD, F&G) troubleshooting & maintenance, GE Control
+Turbine Mark VIe maintenance, PLC Programming, DCS configuration &
+Troubleshooting, CCTV & Access control (Germany), UPS maintenance.IT skills: Proficient user of LINUX & Microsoft Windows, Microsoft Office pack,
+Matlab, SQL, AutoCAD, PRIMAVIRA, C++, Hysys.General:
+Strong experience as instrumentation and control engineer at SONATRACH, the Algerian National Oil & Gas
+Company and its partners within Oil & Gas Processing Plants, Refineries, Petrochemical and Chemical
+Plants, and mining including EPC projects, plant maintenance, commissioning & startup, engineering,
+revamping. I have a wide range experience in configuration, commissioning programming, troubleshooting &
+diagnostic of ICSS, DCS, ESD, F&G, SCADA, PLC, GE Turbine control Mark V, VI and VIe, all kinds of
+instrument & machines and familiar with standards and codes IEC, ISA….Work experienceMay 2014 – Present: ENI-Sonatrach (Joint venture)                           Algeria
+Instrument & Control engineerWorked as Instrument & Control Engineer at Joint-Venture Eni-Sonatrach,
+Hassi Messoud, Algeria, on CPF, Central Processing facilities, plant
+including three Gas & Crude Treatment trains and utilities facilities.x Maintenance of ICSS system (DCS, ESD, Fire & gas), loop check,
+graphic configuration, PLC programming and configuration.
+x Troubleshooting system and process alarms using DCS Honeywell
+TPS/TDC3000, ESD FSC/ Triconex, F&G, BMS and BOP systems.
+
+
+{
+"Details":{
+"Nationality":"Egyptian"
+"Country":""
+"Languages":[
+0:"English"
+1:"Italian"
+2:"Arabic"
+]
+}
+}
+
+
