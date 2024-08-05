@@ -1,6 +1,9 @@
 # AI-ExtractData-NuExtract-tiny
 NuExtract-tiny GGUF for data extraction in json format
 
+
+<img src='https://github.com/fabiomatricardi/AI-ExtractData-NuExtract-tiny/raw/main/images/banner.png' width=800>
+
 ### How to go from this to this
 
 ##### JSON schema template:
