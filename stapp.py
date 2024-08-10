@@ -139,6 +139,10 @@ if extract_btn:
         st.write(result)
         adapter = result.replace("'",'"')
         final = json.loads(adapter) 
+        totalTokens = len(encoding.encode(prompt))+len(encoding.encode(result))
+        totalseconds = delta.total_seconds()
+        st.session_state.speed = totalTokens/totalseconds
+        statspeed.markdown(f'💫 speed: {st.session_state.speed:.2f}  t/s')
         totalstring = f"""GENERATED STRING
 
 {result}
@@ -153,3 +157,7 @@ JSON FORMAT:
         with st.session_state.extractedJSON:
             st.markdown(totalstring)
         st.session_state.onlyJSON.json(final)    
+        writehistory(st.session_state.logfilename,f'✨: {prompt}')
+        writehistory(st.session_state.logfilename,f'🌀: {result}')
+        writehistory(st.session_state.logfilename,f'---\n\n')
+
